@@ -45,6 +45,8 @@ static char	*get_line(char **rest_buf, char *read_buf, int fd)
 	{
 		line_end = find_line_end(read_buf, bytes_read);
 		append(&line, read_buf, line_end + 1);
+		if (line == NULL)
+			return (NULL);
 		if (read_buf[line_end] == '\n')
 		{
             free(*rest_buf);

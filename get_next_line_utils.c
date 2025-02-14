@@ -34,29 +34,32 @@ char	*copy(char *src, int start, int end)
 
 void	append(char **line, char *buf, int num_chars)
 {
-	char	*result;
+	char	*temp;
 	int		i;
 	int		line_len;
 
+	temp = *line;
 	line_len = ft_strlen(*line);
-	result = malloc((line_len + num_chars + 1) * sizeof(char));
-	if (result == NULL)
-		return (NULL);
-	result[line_len + num_chars] = '\0';
+	*line = malloc((line_len + num_chars + 1) * sizeof(char));
+	if (*line == NULL)
+	{
+		free(temp);
+		return;
+	}
+	(*line)[line_len + num_chars] = '\0';
 	i = 0;
 	while (i < line_len)
 	{
-		result[i] = *line[i];
+		(*line)[i] = temp[i];
 		i++;
 	}
-    free(*line);
+    free(temp);
 	i = 0;
 	while (i < num_chars)
 	{
-		result[line_len + i] = buf[i];
+		(*line)[line_len + i] = buf[i];
 		i++;
 	}
-	return (result);
 }
 
 int	find_line_end(char *s, int size)
