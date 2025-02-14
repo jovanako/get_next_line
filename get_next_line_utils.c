@@ -32,13 +32,13 @@ char	*copy(char *src, int start, int end)
 	return (result);
 }
 
-char	*append(char *line, char *buf, int num_chars)
+void	append(char **line, char *buf, int num_chars)
 {
 	char	*result;
 	int		i;
 	int		line_len;
 
-	line_len = ft_strlen(line);
+	line_len = ft_strlen(*line);
 	result = malloc((line_len + num_chars + 1) * sizeof(char));
 	if (result == NULL)
 		return (NULL);
@@ -46,10 +46,10 @@ char	*append(char *line, char *buf, int num_chars)
 	i = 0;
 	while (i < line_len)
 	{
-		result[i] = line[i];
+		result[i] = *line[i];
 		i++;
 	}
-    free(line);
+    free(*line);
 	i = 0;
 	while (i < num_chars)
 	{
