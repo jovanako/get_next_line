@@ -1,5 +1,21 @@
 #include "get_next_line.h"
 
+int	find_new_line(char *s)
+{
+	int		i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == '\n')
+		{
+			return (i);
+		}
+		i++;
+	}
+	return (-1);
+}
+
 int	ft_strlen(char *str)
 {
 	int		len;
@@ -14,67 +30,49 @@ int	ft_strlen(char *str)
 	return (len);
 }
 
-char	*alloc_and_copy(char *src, int start, int end)
-{
-	char	*result;
-	int		i;
-
-	result = malloc((end - start + 1) * sizeof(char));
-	if (result == NULL)
-		return (NULL);
-	i = 0;
-	while ((i + start) < end)
-	{
-		result[i] = src[i + start];
-		i++;
-	}
-	result[i] = '\0';
-	return (result);
-}
-
-static void	copy(char *s1, char *s2, int n, int offset)
+static void	copy(char *dst, char *src, int n)
 {
 	int		i;
 
 	i = 0;
 	while (i < n)
 	{
-		s1[offset + i] = s2[i];
+		dst[i] = src[i];
 		i++;
 	}
 }
 
-void	append(char **line, char *buf, int num_chars)
+char	*ft_substr(char **s, int start, int len)
+{
+	char	*result;
+
+	result = malloc((len + 1) * sizeof(char));
+	if (result == NULL)
+	{
+		free(*s);
+		*s = NULL;
+		return (NULL);
+	}
+	copy(result, *s + start, len);
+	result[len] = '\0';
+	return (result);
+}
+
+void	append(char **line_buf, char *read_buf, int bytes_read)
 {
 	char	*temp;
 	int		line_len;
 
-	temp = *line;
-	line_len = ft_strlen(*line);
-	*line = malloc((line_len + num_chars + 1) * sizeof(char));
-	if (*line == NULL)
+	temp = *line_buf;
+	line_len = ft_strlen(*line_buf);
+	*line_buf = malloc((line_len + bytes_read + 1) * sizeof(char));
+	if (*line_buf == NULL)
 	{
 		free(temp);
 		return ;
 	}
-	(*line)[line_len + num_chars] = '\0';
-	copy(*line, temp, line_len, 0);
+	(*line_buf)[line_len + bytes_read] = '\0';
+	copy(*line_buf, temp, line_len);
 	free(temp);
-	copy(*line, buf, num_chars, line_len);
-}
-
-int	find_line_end(char *s, int size)
-{
-	int	i;
-
-	i = 0;
-	while (i < size)
-	{
-		if (s[i] == '\n')
-		{
-			return (i);
-		}
-		i++;
-	}
-	return (size - 1);
+	copy(*line_buf + line_len, read_buf, bytes_read);
 }

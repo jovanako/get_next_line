@@ -5,13 +5,13 @@
 # include <stdlib.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
+#  define BUFFER_SIZE 10
 # endif
 
 char	*get_next_line(int fd);
+int		find_new_line(char *s);
 int		ft_strlen(char *str);
-char	*alloc_and_copy(char *src, int start, int end);
-int		find_line_end(char *s, int size);
-void	append(char **line, char *buf, int num_chars);
+void	append(char **line_buf, char *read_buf, int bytes_read);
+char	*ft_substr(char **s, int start, int len);
 
 #endif
