@@ -10,7 +10,7 @@
 
 char	*get_next_line(int fd);
 int		ft_strlen(char *str);
-char	*copy(char *src, int start, int end);
+char	*alloc_and_copy(char *src, int start, int end);
 int		find_line_end(char *s, int size);
 void	append(char **line, char *buf, int num_chars);
 

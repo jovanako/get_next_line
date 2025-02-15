@@ -14,7 +14,7 @@ int	ft_strlen(char *str)
 	return (len);
 }
 
-char	*copy(char *src, int start, int end)
+char	*alloc_and_copy(char *src, int start, int end)
 {
 	char	*result;
 	int		i;
@@ -32,10 +32,21 @@ char	*copy(char *src, int start, int end)
 	return (result);
 }
 
+static void	copy(char *s1, char *s2, int n, int offset)
+{
+	int		i;
+
+	i = 0;
+	while (i < n)
+	{
+		s1[offset + i] = s2[i];
+		i++;
+	}
+}
+
 void	append(char **line, char *buf, int num_chars)
 {
 	char	*temp;
-	int		i;
 	int		line_len;
 
 	temp = *line;
@@ -44,22 +55,12 @@ void	append(char **line, char *buf, int num_chars)
 	if (*line == NULL)
 	{
 		free(temp);
-		return;
+		return ;
 	}
 	(*line)[line_len + num_chars] = '\0';
-	i = 0;
-	while (i < line_len)
-	{
-		(*line)[i] = temp[i];
-		i++;
-	}
-    free(temp);
-	i = 0;
-	while (i < num_chars)
-	{
-		(*line)[line_len + i] = buf[i];
-		i++;
-	}
+	copy(*line, temp, line_len, 0);
+	free(temp);
+	copy(*line, buf, num_chars, line_len);
 }
 
 int	find_line_end(char *s, int size)
