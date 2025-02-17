@@ -53,7 +53,7 @@ static char	*cut_line(char **line_buf, int nl_i)
 	return (line);
 }
 
-char	*ft_get_line(char **line_buf)
+static char	*ft_get_line(char **line_buf)
 {
 	int	nl_i;
 
